@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1976D2</color>
+    <color name="colorAccent">#1976D2</color>
+    <color name="colorPrimaryDark">#1565C0</color>
+    <color name="listBackground">#F2F2F2</color>
+    <color name="WindowBackground">#DEDEDE</color>
+    <color name="TextPrimaryColor">#FFFFFF</color>
+    <color name="NavigationColor">#000000</color>
+
+    <color name="selected_gray">#FFDBDBDB</color>
+</resources>

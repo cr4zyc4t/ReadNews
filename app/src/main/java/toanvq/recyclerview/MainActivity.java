@@ -115,8 +115,8 @@ public class MainActivity extends ActionBarActivity {
                             }
                         }
                         adapter.notifyDataSetChanged();
-                        progressBar.setVisibility(View.GONE);
                     }
+                    progressBar.setVisibility(View.GONE);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -135,6 +135,8 @@ public class MainActivity extends ActionBarActivity {
 
             Intent subcategory = new Intent(getActivity(), SubCategoryActivity.class);
             subcategory.putExtra("category_id", clicked_item.getServer_id());
+            subcategory.putExtra("category_title", clicked_item.getTitle());
+            subcategory.putExtra("category_icon", clicked_item.getIcon());
             startActivity(subcategory);
         }
     }

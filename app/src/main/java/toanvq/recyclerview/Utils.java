@@ -67,6 +67,7 @@ public class Utils {
         } else {
             height = display.getHeight();  // deprecated
         }
+
         return height;
     }
 

@@ -30,7 +30,7 @@ import toanvq.recyclerview.volley.AppController;
 
 public class SubCategoryActivity extends ActionBarActivity implements RecyclerView_Adapter.ItemClickListener {
     private final String FETCH_SUBCTG_URL = "http://content.amobi.vn/api/cafe24h/listsubcategory";
-//    private final String FETCH_SUBCTG_URL = "http://192.168.56.1/test.php?sdfs=sdfds";
+
     private List<RecyclerView_Item> listSubCtg = new ArrayList<RecyclerView_Item>();
     private RecyclerView_Adapter adapter;
     private ProgressBar progressBar;

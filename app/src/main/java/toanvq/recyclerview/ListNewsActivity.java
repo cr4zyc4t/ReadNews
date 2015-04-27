@@ -1,21 +1,20 @@
 package toanvq.recyclerview;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -34,10 +33,12 @@ import toanvq.recyclerview.volley.AppController;
 
 public class ListNewsActivity extends ActionBarActivity implements ListNews_Adapter.NewsClickListener {
     private final String FETCH_LIST_NEWS_URL = "http://content.amobi.vn/api/cafe24h/listcontent";
+    private final int GRID_COLUMN = 2;
     private List<News> listNews = new ArrayList<News>();
     private ListNews_Adapter adapter;
     private ProgressBar progressBar;
     private RecyclerView listNews_view;
+    private int currentColumnNumber = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,12 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         listNews_view = (RecyclerView) findViewById(R.id.list_news_container);
-        listNews_view.setLayoutManager(new LinearLayoutManager(this));
+
+        if (Utils.isTablet(getResources())) {
+            listNews_view.setLayoutManager(new GridLayoutManager(this, GRID_COLUMN));
+        } else {
+            listNews_view.setLayoutManager(new LinearLayoutManager(this));
+        }
 
         adapter = new ListNews_Adapter(listNews, this);
         adapter.setNewsClickListener(this);
@@ -129,11 +135,17 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
             Pair<View, String> titlePair = Pair.create(viewHolder.getTitle(), "title");
             Pair<View, String> timePair = Pair.create(viewHolder.getTimestamp(), "time");
             Pair<View, String> iconPair = Pair.create(viewHolder.getIcon(), "icon");
+            Pair<View, String> sourcePair = Pair.create(viewHolder.getSource_icon(), "source");
 
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, titlePair, timePair, iconPair);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, titlePair, timePair, iconPair, sourcePair);
             ActivityCompat.startActivity(this, readnews, options.toBundle());
         }else{
             startActivity(readnews);
         }
+    }
+
+    private enum LayoutManageType {
+        LINEAR_LAYOUT,
+        GRIG_LAYOUT
     }
 }

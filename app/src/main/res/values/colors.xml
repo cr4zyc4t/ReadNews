@@ -3,8 +3,9 @@
     <color name="colorPrimary">#1976D2</color>
     <color name="colorAccent">#1976D2</color>
     <color name="colorPrimaryDark">#1565C0</color>
-    <color name="listBackground">#F2F2F2</color>
-    <color name="WindowBackground">#DEDEDE</color>
+    <color name="listBackground">#F5F5F5</color>
+    <color name="listNewsBackground">#E3E3E3</color>
+    <color name="WindowBackground">#E3E3E3</color>
     <color name="TextPrimaryColor">#FFFFFF</color>
     <color name="NavigationColor">#000000</color>
 

@@ -2,11 +2,11 @@ package toanvq.recyclerview;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,62 +18,71 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import toanvq.recyclerview.volley.AppController;
 
 
-public class ReadActivity extends ActionBarActivity {
+public class ReadActivity extends ActionBarActivity implements MyScrollView.OnScrollListener {
     private final String FETCH_NEWS_URL = "http://content.amobi.vn/api/cafe24h/contentdetail";
 
     ProgressBar progressBar;
     Button buttonRetry;
     WebView body;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#001976D2")));
+        actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#301976D2")));
         actionBar.setDisplayHomeAsUpEnabled(true);
-        setTitle(null);
+        actionBar.setDisplayShowTitleEnabled(false);
 
-        final ImageView icon = (ImageView) findViewById(R.id.icon);
+        ImageView icon = (ImageView) findViewById(R.id.icon);
+        ImageView source_icon = (ImageView) findViewById(R.id.profilePic);
         TextView title = (TextView) findViewById(R.id.title);
         TextView time = (TextView) findViewById(R.id.timestamp);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         buttonRetry = (Button) findViewById(R.id.buttonRetry);
         body = (WebView) findViewById(R.id.body);
 
+        Log.i("Icon", "Width " + icon.getWidth());
+
+        MyScrollView scrollView = (MyScrollView) findViewById(R.id.scrollView);
+        scrollView.setOnScrollListener(this);
+
         ViewCompat.setTransitionName(title, "title");
         ViewCompat.setTransitionName(time, "time");
         ViewCompat.setTransitionName(icon, "icon");
+        ViewCompat.setTransitionName(source_icon, "source");
 
         final News news = (News) getIntent().getSerializableExtra("news");
-        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-        imageLoader.get(news.getIcon(), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                if (response.getBitmap() != null) {
-                    icon.setImageBitmap(response.getBitmap());
-                }
-            }
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
+        int icon_width = Utils.getScreenWidth(this);
+        Picasso.with(this).load(news.getIcon()).resize(icon_width, icon_width / 2).centerCrop().into(icon);
+//        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+//        imageLoader.get(news.getIcon(), new ImageLoader.ImageListener() {
+//            @Override
+//            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+//                if (response.getBitmap() != null) {
+//                    icon.setImageBitmap(response.getBitmap());
+//                }
+//            }
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        });
 
         title.setText(news.getTitle());
         time.setText(news.getTime());
@@ -86,6 +95,18 @@ public class ReadActivity extends ActionBarActivity {
                 getContentData(news.getId());
             }
         });
+    }
+
+    private void hideActionBar() {
+        if (actionBar.isShowing()) {
+            actionBar.hide();
+        }
+    }
+
+    private void showActionBar() {
+        if (!actionBar.isShowing()) {
+            actionBar.show();
+        }
     }
 
     private void getContentData(int id) {
@@ -147,5 +168,20 @@ public class ReadActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onScrolled(int l, int t, int oldl, int oldt) {
+        if (t <= Utils.getActionBarHeight(this)) {
+            showActionBar();
+        } else {
+            if (t > oldt) { // SCROLL DOWN
+                hideActionBar();
+            } else {
+                if ((t < oldt) && (t > 0)) {
+                    showActionBar();
+                }
+            }
+        }
     }
 }

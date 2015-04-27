@@ -2,28 +2,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:background="@color/listNewsBackground"
     tools:context="toanvq.recyclerview.ListNewsActivity">
 
     <view
+        android:id="@+id/list_news_container"
+        class="android.support.v7.widget.RecyclerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        class="android.support.v7.widget.RecyclerView"
-        android:id="@+id/list_news_container"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingTop="8dp"
-        android:scrollbars="vertical"
+        android:layout_alignParentTop="true"
+        android:background="@color/listNewsBackground"
         android:clickable="true"
         android:focusable="true"
-        android:background="@color/listBackground"/>
+        android:scrollbars="none" />
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:visibility="gone"/>
 
 </RelativeLayout>

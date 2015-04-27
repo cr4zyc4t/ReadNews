@@ -1,5 +1,6 @@
 package toanvq.recyclerview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,12 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import toanvq.recyclerview.volley.AppController;
 
 /**
  * Created by Admin on 2015-04-24.
@@ -63,21 +61,26 @@ public class ListNews_Adapter extends RecyclerView.Adapter<ListNews_Adapter.View
         view_holder.description.setText(item.getDescription());
         view_holder.timestamp.setText(item.getTime());
 
-        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+        int icon_width = Utils.getScreenWidth((Activity) mContext);
+        if (Utils.isTablet(mContext.getResources())) {
+            icon_width = icon_width / 2;
+        }
+        Picasso.with(mContext).load(item.getIcon()).resize(icon_width, icon_width / 2).centerCrop().into(view_holder.icon);
 
-        imageLoader.get(item.getIcon(),new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                if (response.getBitmap() != null){
-                    view_holder.icon.setImageBitmap( response.getBitmap());
-                }
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
+//        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+//        imageLoader.get(item.getIcon(),new ImageLoader.ImageListener() {
+//            @Override
+//            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+//                if (response.getBitmap() != null){
+//                    view_holder.icon.setImageBitmap( response.getBitmap());
+//                }
+//            }
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -91,7 +94,7 @@ public class ListNews_Adapter extends RecyclerView.Adapter<ListNews_Adapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView icon;
+        protected ImageView icon, source_icon;
         protected TextView title, description, timestamp ;
         protected View parent;
 
@@ -102,6 +105,7 @@ public class ListNews_Adapter extends RecyclerView.Adapter<ListNews_Adapter.View
             this.title = (TextView) itemView.findViewById(R.id.title);
             this.description = (TextView) itemView.findViewById(R.id.description);
             this.timestamp = (TextView) itemView.findViewById(R.id.timestamp);
+            this.source_icon = (ImageView) itemView.findViewById(R.id.profilePic);
         }
 
         public View getIcon() {
@@ -115,9 +119,45 @@ public class ListNews_Adapter extends RecyclerView.Adapter<ListNews_Adapter.View
         public View getTimestamp() {
             return timestamp;
         }
+
+        public View getSource_icon() {
+            return source_icon;
+        }
     }
 
-    public interface NewsClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        protected ImageView icon, source_icon;
+        protected TextView title, description, timestamp;
+        protected View parent;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            this.parent = itemView;
+            this.icon = (ImageView) itemView.findViewById(R.id.icon);
+            this.title = (TextView) itemView.findViewById(R.id.title);
+            this.description = (TextView) itemView.findViewById(R.id.description);
+            this.timestamp = (TextView) itemView.findViewById(R.id.timestamp);
+            this.source_icon = (ImageView) itemView.findViewById(R.id.profilePic);
+        }
+
+        public View getIcon() {
+            return icon;
+        }
+
+        public View getTitle() {
+            return title;
+        }
+
+        public View getTimestamp() {
+            return timestamp;
+        }
+
+        public View getSource_icon() {
+            return source_icon;
+        }
+    }
+
+    public interface NewsClickListener {
         void NewsClicked(int position);
     }
 }

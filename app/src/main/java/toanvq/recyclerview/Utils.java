@@ -1,6 +1,7 @@
 package toanvq.recyclerview;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -47,6 +49,12 @@ public class Utils {
         }
     }
 
+//    public static boolean isTablet(Context context) {
+//        return (context.getResources().getConfiguration().screenLayout
+//                & Configuration.SCREENLAYOUT_SIZE_MASK)
+//                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+//    }
+
     public static boolean isTablet(Resources res) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             return res.getConfiguration().smallestScreenWidthDp >= 600;
@@ -69,6 +77,28 @@ public class Utils {
         }
 
         return height;
+    }
+
+    public static int getScreenWidth(Activity act) {
+        int width = 0;
+        Display display = act.getWindowManager().getDefaultDisplay();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Point size = new Point();
+            display.getSize(size);
+            width = size.x;
+        } else {
+            width = display.getWidth();  // deprecated
+        }
+
+        return width;
+    }
+
+    public static int getActionBarHeight(Context context) {
+        TypedValue tv = new TypedValue();
+        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            return TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
+        }
+        return 0;
     }
 
     public static Point getUserPhotoSize(Resources res) {

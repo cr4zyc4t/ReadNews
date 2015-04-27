@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.balysv.materialripple.MaterialRippleLayout
-    android:id="@+id/ripple_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_placeholder"
-            android:id="@+id/icon" />
+    android:paddingTop="8dp">
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_placeholder" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:layout_margin="4dp"
-            android:maxLines="2"
-            android:id="@+id/title"
-            android:textStyle="bold"
-            android:gravity="center_vertical" />
-    </LinearLayout>
-</com.balysv.materialripple.MaterialRippleLayout>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:paddingLeft="10dp"
+        android:textSize="@dimen/abc_text_size_title_material"
+        android:textStyle="bold" />
+</LinearLayout>

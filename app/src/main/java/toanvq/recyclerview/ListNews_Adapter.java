@@ -44,7 +44,7 @@ public class ListNews_Adapter extends RecyclerView.Adapter<ListNews_Adapter.View
         view_holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (newsClickListener != null){
+                if (newsClickListener != null) {
                     newsClickListener.NewsClicked(view_holder.getAdapterPosition());
                 }
             }
@@ -93,36 +93,8 @@ public class ListNews_Adapter extends RecyclerView.Adapter<ListNews_Adapter.View
         return listNews.get(position).getId();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView icon, source_icon;
-        protected TextView title, description, timestamp ;
-        protected View parent;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            this.parent = itemView;
-            this.icon = (ImageView) itemView.findViewById(R.id.icon);
-            this.title = (TextView) itemView.findViewById(R.id.title);
-            this.description = (TextView) itemView.findViewById(R.id.description);
-            this.timestamp = (TextView) itemView.findViewById(R.id.timestamp);
-            this.source_icon = (ImageView) itemView.findViewById(R.id.profilePic);
-        }
-
-        public View getIcon() {
-            return icon;
-        }
-
-        public View getTitle() {
-            return title;
-        }
-
-        public View getTimestamp() {
-            return timestamp;
-        }
-
-        public View getSource_icon() {
-            return source_icon;
-        }
+    public interface NewsClickListener {
+        void NewsClicked(int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -155,9 +127,5 @@ public class ListNews_Adapter extends RecyclerView.Adapter<ListNews_Adapter.View
         public View getSource_icon() {
             return source_icon;
         }
-    }
-
-    public interface NewsClickListener {
-        void NewsClicked(int position);
     }
 }

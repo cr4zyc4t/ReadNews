@@ -19,7 +19,7 @@
             android:layout_height="64dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
-            android:src="@drawable/placeholder"
+            android:src="@mipmap/ic_placeholder"
             android:id="@+id/icon" />
 
         <TextView

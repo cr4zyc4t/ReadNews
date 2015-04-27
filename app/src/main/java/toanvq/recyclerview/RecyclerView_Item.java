@@ -1,9 +1,11 @@
 package toanvq.recyclerview;
 
+import java.io.Serializable;
+
 /**
  * Created by Admin on 2015-04-24.
  */
-public class RecyclerView_Item {
+public class RecyclerView_Item implements Serializable {
     private String title, icon;
     private int server_id;
 

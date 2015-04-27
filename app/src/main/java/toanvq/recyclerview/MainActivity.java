@@ -121,7 +121,7 @@ public class MainActivity extends ActionBarActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getActivity(), "Network Error " + error.getMessage(), Toast.LENGTH_SHORT);
+                    Toast.makeText(getActivity(), "Network Error " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
             request.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -134,9 +134,10 @@ public class MainActivity extends ActionBarActivity {
             Log.i("Click", "Click at " + clicked_item.getTitle());
 
             Intent subcategory = new Intent(getActivity(), SubCategoryActivity.class);
-            subcategory.putExtra("category_id", clicked_item.getServer_id());
-            subcategory.putExtra("category_title", clicked_item.getTitle());
-            subcategory.putExtra("category_icon", clicked_item.getIcon());
+//            subcategory.putExtra("category_id", clicked_item.getServer_id());
+//            subcategory.putExtra("category_title", clicked_item.getTitle());
+//            subcategory.putExtra("category_icon", clicked_item.getIcon());
+            subcategory.putExtra("category", clicked_item);
             startActivity(subcategory);
         }
     }

@@ -23,6 +23,15 @@
             android:name=".SubCategoryActivity"
             android:label="@string/title_activity_sub_category" >
         </activity>
+        <activity
+            android:name=".ListNewsActivity"
+            android:label="@string/title_activity_list_news" >
+        </activity>
+        <activity
+            android:theme="@style/TransparentActionBarTheme"
+            android:name=".ReadActivity"
+            android:label="@string/title_activity_read" >
+        </activity>
     </application>
 
 </manifest>

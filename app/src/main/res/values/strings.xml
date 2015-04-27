@@ -3,4 +3,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_sub_category">SubCategoryActivity</string>
+    <string name="title_activity_list_news">ListNewsActivity</string>
+    <string name="title_activity_read">ReadActivity</string>
 </resources>

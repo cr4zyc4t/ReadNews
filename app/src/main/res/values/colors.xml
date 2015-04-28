@@ -6,7 +6,7 @@
     <color name="listBackground">#F5F5F5</color>
     <color name="listNewsBackground">#E3E3E3</color>
     <color name="WindowBackground">#E3E3E3</color>
-    <color name="TextPrimaryColor">#FFFFFF</color>
+    <color name="TextPrimaryColor">#000000</color>
     <color name="NavigationColor">#000000</color>
 
     <color name="selected_gray">#FFDBDBDB</color>

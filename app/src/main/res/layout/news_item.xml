@@ -62,6 +62,16 @@
                     android:layout_alignParentBottom="true"
                     android:textColor="#a0a3a7"
                     android:textSize="@dimen/time_font_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_menu_moreoverflow_card_dark_normal" />
             </RelativeLayout>
         </LinearLayout>
 

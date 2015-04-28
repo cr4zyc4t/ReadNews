@@ -131,7 +131,7 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
         readnews.putExtra("news", clicked_item);
 
         ListNews_Adapter.ViewHolder viewHolder = (ListNews_Adapter.ViewHolder) listNews_view.findViewHolderForItemId(clicked_item.getId());
-        if (viewHolder != null){
+        if ((viewHolder != null) && (! Utils.isTablet(this.getResources()))){
             Pair<View, String> titlePair = Pair.create(viewHolder.getTitle(), "title");
             Pair<View, String> timePair = Pair.create(viewHolder.getTimestamp(), "time");
             Pair<View, String> iconPair = Pair.create(viewHolder.getIcon(), "icon");

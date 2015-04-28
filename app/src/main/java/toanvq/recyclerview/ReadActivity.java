@@ -2,6 +2,7 @@ package toanvq.recyclerview;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
@@ -23,8 +24,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.squareup.picasso.Picasso;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import toanvq.recyclerview.volley.AppController;
 
@@ -87,7 +96,8 @@ public class ReadActivity extends ActionBarActivity implements MyScrollView.OnSc
         title.setText(news.getTitle());
         time.setText(news.getTime());
 
-        getContentData(news.getId());
+//        getContentData(news.getId());
+        new getContentAsync().execute(new String[]{"" + news.getId()});
 
         buttonRetry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +192,64 @@ public class ReadActivity extends ActionBarActivity implements MyScrollView.OnSc
                     showActionBar();
                 }
             }
+        }
+    }
+
+    class getContentAsync extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+            buttonRetry.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet request = new HttpGet(FETCH_NEWS_URL + "?content_id=" + params[0]);
+
+            try {
+                HttpResponse httpResponse = httpClient.execute(request);
+                InputStream inputStream = httpResponse.getEntity().getContent();
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                StringBuilder stringBuilder = new StringBuilder();
+                String bufferedStrChunk = null;
+                while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(bufferedStrChunk);
+                }
+                return stringBuilder.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            // TODO Auto-generated method stub
+            super.onPostExecute(result);
+            JSONObject response = null;
+            if (result != null) {
+                try {
+                    response = new JSONObject(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (response != null) {
+                try {
+                    body.loadData(response.getJSONObject("content_detail").getString("content"), "text/html; charset=utf-8", "UTF-8");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                buttonRetry.setVisibility(View.VISIBLE);
+            }
+            progressBar.setVisibility(View.GONE);
         }
     }
 }

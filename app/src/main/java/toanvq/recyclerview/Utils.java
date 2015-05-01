@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -233,4 +234,7 @@ public class Utils {
         }
     }
 
+    public static int getTintColor(int color) {
+        return Color.rgb((int) (Color.red(color) * 0.85), (int) (Color.green(color) * 0.85), (int) (Color.blue(color) * 0.85));
+    }
 }

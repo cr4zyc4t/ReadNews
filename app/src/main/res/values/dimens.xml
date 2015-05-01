@@ -10,4 +10,6 @@
     <dimen name="new_item_margin_bottom">8dp</dimen>
     <dimen name="new_item_margin_left">16dp</dimen>
     <dimen name="new_item_margin_right">16dp</dimen>
+
+    <dimen name="tab_title_font_size">14sp</dimen>
 </resources>

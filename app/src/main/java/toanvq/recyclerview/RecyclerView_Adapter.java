@@ -77,7 +77,7 @@ public class RecyclerView_Adapter extends RecyclerView.Adapter<RecyclerView_Adap
                         return false;
                     }
                 });
-                menu.inflate(R.menu.menu_list_news);
+                menu.inflate(R.menu.menu_main);
                 menu.show();
             }
         });

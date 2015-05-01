@@ -28,9 +28,13 @@
             android:label="@string/title_activity_list_news" >
         </activity>
         <activity
-            android:theme="@style/TransparentActionBarTheme"
             android:name=".ReadActivity"
-            android:label="@string/title_activity_read" >
+            android:label="@string/title_activity_read"
+            android:theme="@style/TransparentActionBarTheme"></activity>
+        <activity
+            android:theme="@style/MaterialTabViewTheme"
+            android:name=".SlidingTabActivity"
+            android:label="@string/title_activity_sliding_tab">
         </activity>
     </application>
 

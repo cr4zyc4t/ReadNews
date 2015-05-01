@@ -58,7 +58,8 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_slidingtab) {
+            startActivity(new Intent(MainActivity.this, SlidingTabActivity.class));
             return true;
         }
 
@@ -70,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment implements RecyclerView_Adapter.ItemClickListener {
         private static final String CONTENTS_URL = "http://content.amobi.vn/api/cafe24h/listcategory";
-        private List<RecyclerView_Item> listItem = new ArrayList<RecyclerView_Item>();
+        private List<RecyclerView_Item> listItem = new ArrayList<>();
         private RecyclerView_Adapter adapter;
         private ProgressBar progressBar;
 
@@ -106,7 +107,7 @@ public class MainActivity extends ActionBarActivity {
                         for (int i = 0; i < feeds.length(); i++) {
                             JSONObject feed = feeds.optJSONObject(i);
                             if (feed != null) {
-                                RecyclerView_Item new_item = null;
+                                RecyclerView_Item new_item;
                                 int server_id = feed.optInt("id");
                                 if (server_id != 0) {
                                     new_item = new RecyclerView_Item(feed.optString("title"), feed.optString("icon"), server_id);

@@ -2,13 +2,10 @@ package toanvq.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -44,14 +41,12 @@ public class RecyclerView_Adapter extends RecyclerView.Adapter<RecyclerView_Adap
     public View_Holder onCreateViewHolder(ViewGroup viewGroup, int i) {
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_item, viewGroup, false);
         final View_Holder view_holder = new View_Holder(view);
-        Log.i("Run", "createview");
         return view_holder;
     }
 
     @Override
     public void onBindViewHolder(final View_Holder view_holder, final int i) {
         RecyclerView_Item item = itemList.get(i);
-        Log.i("Run", "bindview");
         view_holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,24 +58,24 @@ public class RecyclerView_Adapter extends RecyclerView.Adapter<RecyclerView_Adap
 
         view_holder.title.setText(item.getTitle());
 
-        view_holder.title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("Click", "Item click " + i);
-                PopupMenu menu = new PopupMenu(mContext, v);
-                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.action_settings) {
-                            Log.i("Click", "action setting");
-                        }
-                        return false;
-                    }
-                });
-                menu.inflate(R.menu.menu_main);
-                menu.show();
-            }
-        });
+//        view_holder.title.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.i("Click", "Item click " + i);
+//                PopupMenu menu = new PopupMenu(mContext, v);
+//                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem item) {
+//                        if (item.getItemId() == R.id.action_settings) {
+//                            Log.i("Click", "action setting");
+//                        }
+//                        return false;
+//                    }
+//                });
+//                menu.inflate(R.menu.menu_main);
+//                menu.show();
+//            }
+//        });
 
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(item.getIcon(),new ImageLoader.ImageListener() {

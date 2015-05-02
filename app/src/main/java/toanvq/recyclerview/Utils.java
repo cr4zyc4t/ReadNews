@@ -234,7 +234,19 @@ public class Utils {
         }
     }
 
-    public static int getTintColor(int color) {
-        return Color.rgb((int) (Color.red(color) * 0.85), (int) (Color.green(color) * 0.85), (int) (Color.blue(color) * 0.85));
+    public static int tintColor(int color) {
+        float ratio = 0.85f;
+        float r = Color.red(color) * ratio;
+        float g = Color.green(color) * ratio;
+        float b = Color.blue(color) * ratio;
+        return Color.rgb((int) r, (int) g, (int) b);
+    }
+
+    public static int blendColors(int color1, int color2, float ratio) {
+        final float inverseRation = 1f - ratio;
+        float r = (Color.red(color1) * ratio) + (Color.red(color2) * inverseRation);
+        float g = (Color.green(color1) * ratio) + (Color.green(color2) * inverseRation);
+        float b = (Color.blue(color1) * ratio) + (Color.blue(color2) * inverseRation);
+        return Color.rgb((int) r, (int) g, (int) b);
     }
 }

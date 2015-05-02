@@ -34,6 +34,7 @@ public class SubCategoryActivity extends ActionBarActivity implements RecyclerVi
     private List<RecyclerView_Item> listSubCtg = new ArrayList<RecyclerView_Item>();
     private RecyclerView_Adapter adapter;
     private ProgressBar progressBar;
+    private RecyclerView_Item category;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,7 @@ public class SubCategoryActivity extends ActionBarActivity implements RecyclerVi
 
 //        int category_id = getIntent().getIntExtra("category_id", 0);
 //        String category_title = getIntent().getStringExtra("category_title");
-        RecyclerView_Item category = (RecyclerView_Item) getIntent().getSerializableExtra("category");
+        category = (RecyclerView_Item) getIntent().getSerializableExtra("category");
 
         RecyclerView subctg_container = (RecyclerView) findViewById(R.id.subctg_container);
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
@@ -86,7 +87,7 @@ public class SubCategoryActivity extends ActionBarActivity implements RecyclerVi
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getBaseContext(), "Network Error " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Network Error " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -109,6 +110,7 @@ public class SubCategoryActivity extends ActionBarActivity implements RecyclerVi
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            getSubCategory(category.getServer_id());
             return true;
         }
         if (id == android.R.id.home){

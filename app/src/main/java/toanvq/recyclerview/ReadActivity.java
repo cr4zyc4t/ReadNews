@@ -1,7 +1,5 @@
 package toanvq.recyclerview;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -52,7 +50,7 @@ public class ReadActivity extends ActionBarActivity implements MyScrollView.OnSc
         setContentView(R.layout.activity_read);
 
         actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#301976D2")));
+//        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#301976D2")));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 

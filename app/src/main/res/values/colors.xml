@@ -24,4 +24,11 @@
     <color name="bg_4">#EF6C00</color>
     <color name="bg_5">#7E3794</color>
     <color name="bg_6">#0F9D58</color>
+
+    <color name="indigo">#3F51B5</color>
+    <color name="orange">#FF9800</color>
+    <color name="teal">#009688</color>
+    <color name="deep_orange">#FF5722</color>
+    <color name="purple">#9C27B0</color>
+    <color name="green">#4CAF50</color>
 </resources>

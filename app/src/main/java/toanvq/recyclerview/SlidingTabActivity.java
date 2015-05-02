@@ -47,12 +47,12 @@ public class SlidingTabActivity extends AppCompatActivity {
         });
 //        getSupportActionBar().setElevation(0);
 
-        color.add(R.color.bg_1);
-        color.add(R.color.bg_2);
-        color.add(R.color.bg_3);
-        color.add(R.color.bg_4);
-        color.add(R.color.bg_5);
-        color.add(R.color.bg_6);
+        color.add(getResources().getColor(R.color.bg_1));
+        color.add(getResources().getColor(R.color.bg_2));
+        color.add(getResources().getColor(R.color.bg_3));
+        color.add(getResources().getColor(R.color.bg_4));
+        color.add(getResources().getColor(R.color.bg_5));
+        color.add(getResources().getColor(R.color.bg_6));
 
         current_color = color.get(0);
         setStyleColor(current_color);
@@ -61,17 +61,17 @@ public class SlidingTabActivity extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 //                Log.i("TabScroll", "Position " + position + ", offset " + positionOffset + ", offsetPixel " + positionOffsetPixels + ", TabX " + tabbar.getScrollX());
-//                if (positionOffset > 0f && position < (tab_count - 1)) {
-//                    current_color = Utils.blendColors(color.get((position + 1) % 6), color.get(position % 6), positionOffset);
-//                }
+                if (positionOffset > 0f && position < (TITLES.length - 1)) {
+                    current_color = Utils.blendColors(color.get((position + 1) % 6), color.get(position % 6), positionOffset);
+                    setStyleColor(current_color);
+                }
 //                Log.i("Color", "run " + current_color);
-//                setStyleColor(current_color);
             }
 
             @Override
             public void onPageSelected(int position) {
-                current_color = color.get(position % 6);
-                setStyleColor(current_color);
+//                current_color = color.get(position % 6);
+//                setStyleColor(current_color);
             }
 
             @Override
@@ -126,9 +126,9 @@ public class SlidingTabActivity extends AppCompatActivity {
 
     private void setStyleColor(int c) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(Utils.getTintColor(getResources().getColor(c)));
+            getWindow().setStatusBarColor(Utils.tintColor(c));
         }
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(c)));
-        tabbar.setBackgroundColor(getResources().getColor(c));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(c));
+        tabbar.setBackgroundColor(c);
     }
 }

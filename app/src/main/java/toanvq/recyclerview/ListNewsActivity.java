@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -40,12 +41,14 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
     private RecyclerView listNews_view;
     private int currentColumnNumber = 1;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_news);
 
-        RecyclerView_Item subcategory = (RecyclerView_Item) getIntent().getSerializableExtra("subcategory");
+        final RecyclerView_Item subcategory = (RecyclerView_Item) getIntent().getSerializableExtra("subcategory");
 
         ActionBar actionBar = getSupportActionBar();
         setTitle(subcategory.getTitle());
@@ -65,10 +68,19 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
         listNews_view.setAdapter(adapter);
 
         getListNews(subcategory.getServer_id());
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.bg_1, R.color.bg_2, R.color.bg_3, R.color.bg_4, R.color.bg_5, R.color.bg_6);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListNews(subcategory.getServer_id());
+            }
+        });
     }
 
     private void getListNews(int subcategory_id) {
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, FETCH_LIST_NEWS_URL + "?limit=10&subcategory_id=" + subcategory_id, null, new Response.Listener<JSONObject>() {
             @Override
@@ -84,7 +96,8 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
                     }
                     adapter.notifyDataSetChanged();
                 }
-                progressBar.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
+//                progressBar.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override

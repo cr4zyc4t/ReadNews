@@ -1,27 +1,30 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/swipe_refresh_layout"
     tools:context="toanvq.recyclerview.SubCategoryActivity">
 
     <view
+        android:id="@+id/subctg_container"
+        class="android.support.v7.widget.RecyclerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        class="android.support.v7.widget.RecyclerView"
-        android:id="@+id/subctg_container"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:scrollbars="vertical"
+        android:layout_alignParentTop="true"
+        android:background="@color/listBackground"
         android:clickable="true"
         android:focusable="true"
-        android:background="@color/listBackground"/>
+        android:scrollbars="vertical" />
 
     <ProgressBar
+        android:id="@+id/progressBar2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar2"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"/>
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 
-</RelativeLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

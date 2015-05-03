@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -30,6 +31,8 @@ public class SlidingTabActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sliding_tab);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tabbar = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -98,6 +101,9 @@ public class SlidingTabActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == android.R.id.home){
+            ActivityCompat.finishAfterTransition(this);
         }
         return super.onOptionsItemSelected(item);
     }

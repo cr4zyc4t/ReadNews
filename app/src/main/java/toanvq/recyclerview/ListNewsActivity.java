@@ -58,6 +58,14 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
         listNews_view = (RecyclerView) findViewById(R.id.list_news_container);
 
         if (Utils.isTablet(getResources())) {
+            GridLayoutManager layoutManager = new GridLayoutManager(this, GRID_COLUMN);
+            layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    adapter.getItemViewType(position);
+                    return 0;
+                }
+            });
             listNews_view.setLayoutManager(new GridLayoutManager(this, GRID_COLUMN));
         } else {
             listNews_view.setLayoutManager(new LinearLayoutManager(this));
@@ -92,8 +100,11 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
                         if (feed != null) {
                             News news = new News(feed.optString("title"), feed.optString("icon"), feed.optString("time"), feed.optString("description"), feed.optInt("id"));
                             listNews.add(news);
+                            adapter.notifyItemInserted(listNews.size() - 1 );
                         }
                     }
+//                    adapter.notifyDataSetChanged();
+                    listNews.add(null);
                     adapter.notifyDataSetChanged();
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -143,7 +154,7 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
         Intent readnews = new Intent(ListNewsActivity.this, ReadActivity.class);
         readnews.putExtra("news", clicked_item);
 
-        ListNews_Adapter.ViewHolder viewHolder = (ListNews_Adapter.ViewHolder) listNews_view.findViewHolderForItemId(clicked_item.getId());
+        ListNews_Adapter.ItemViewHolder viewHolder = (ListNews_Adapter.ItemViewHolder) listNews_view.findViewHolderForItemId(clicked_item.getId());
         if ((viewHolder != null) && (! Utils.isTablet(this.getResources()))){
             Pair<View, String> titlePair = Pair.create(viewHolder.getTitle(), "title");
             Pair<View, String> timePair = Pair.create(viewHolder.getTimestamp(), "time");

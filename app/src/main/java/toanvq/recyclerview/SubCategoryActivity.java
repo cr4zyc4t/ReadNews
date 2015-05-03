@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,7 +28,7 @@ import java.util.List;
 import toanvq.recyclerview.volley.AppController;
 
 
-public class SubCategoryActivity extends ActionBarActivity implements RecyclerView_Adapter.ItemClickListener {
+public class SubCategoryActivity extends AppCompatActivity implements RecyclerView_Adapter.ItemClickListener {
     private final String FETCH_SUBCTG_URL = "http://content.amobi.vn/api/cafe24h/listsubcategory";
 
     private List<RecyclerView_Item> listSubCtg = new ArrayList<RecyclerView_Item>();
@@ -40,19 +40,18 @@ public class SubCategoryActivity extends ActionBarActivity implements RecyclerVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_category);
 
-//        int category_id = getIntent().getIntExtra("category_id", 0);
-//        String category_title = getIntent().getStringExtra("category_title");
         category = (RecyclerView_Item) getIntent().getSerializableExtra("category");
 
         RecyclerView subctg_container = (RecyclerView) findViewById(R.id.subctg_container);
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
 
         subctg_container.setLayoutManager(new LinearLayoutManager(this));
-
+        
         adapter = new RecyclerView_Adapter(listSubCtg, this);
         adapter.setItemClickListener(this);
 
         subctg_container.setAdapter(adapter);
+
         getSubCategory(category.getServer_id());
 
         // ACTIONBAR
@@ -76,10 +75,10 @@ public class SubCategoryActivity extends ActionBarActivity implements RecyclerVi
                             if (server_id != 0) {
                                 new_item = new RecyclerView_Item(feed.optString("title"), feed.optString("icon"), server_id);
                                 listSubCtg.add(new_item);
+                                adapter.notifyItemInserted(listSubCtg.size() - 1);
                             }
                         }
                     }
-                    adapter.notifyDataSetChanged();
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -109,8 +108,17 @@ public class SubCategoryActivity extends ActionBarActivity implements RecyclerVi
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            getSubCategory(category.getServer_id());
+        if (id == R.id.action_remove) {
+            listSubCtg.remove(1);
+            adapter.notifyItemRemoved(1);
+            Log.d("List", "" + listSubCtg.size());
+            return true;
+        }
+        if (id == R.id.action_add) {
+//            getSubCategory(category.getServer_id());
+            RecyclerView_Item new_item = new RecyclerView_Item("Added Item", "http://icons.iconarchive.com/icons/mazenl77/I-like-buttons-3a/512/Cute-Ball-Go-icon.png", listSubCtg.size());
+            listSubCtg.add(1, new_item);
+            adapter.notifyItemInserted(1);
             return true;
         }
         if (id == android.R.id.home){

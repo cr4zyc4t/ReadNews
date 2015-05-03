@@ -8,9 +8,8 @@
     android:background="@color/listNewsBackground"
     tools:context="toanvq.recyclerview.ListNewsActivity">
 
-    <view
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/list_news_container"
-        class="android.support.v7.widget.RecyclerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

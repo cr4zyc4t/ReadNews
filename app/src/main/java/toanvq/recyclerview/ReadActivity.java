@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,26 +17,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.squareup.picasso.Picasso;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 
 import toanvq.recyclerview.volley.AppController;
 
 
-public class ReadActivity extends ActionBarActivity implements MyScrollView.OnScrollListener {
+public class ReadActivity extends AppCompatActivity implements MyScrollView.OnScrollListener {
     private final String FETCH_NEWS_URL = "http://content.amobi.vn/api/cafe24h/contentdetail";
 
     ProgressBar progressBar;
@@ -54,7 +49,7 @@ public class ReadActivity extends ActionBarActivity implements MyScrollView.OnSc
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        ImageView icon = (ImageView) findViewById(R.id.icon);
+        final ImageView icon = (ImageView) findViewById(R.id.icon);
         ImageView source_icon = (ImageView) findViewById(R.id.profilePic);
         TextView title = (TextView) findViewById(R.id.title);
         TextView time = (TextView) findViewById(R.id.timestamp);
@@ -74,20 +69,20 @@ public class ReadActivity extends ActionBarActivity implements MyScrollView.OnSc
 
         final News news = (News) getIntent().getSerializableExtra("news");
 
-        int icon_width = Utils.getScreenWidth(this);
+        final int icon_width = Utils.getScreenWidth(this);
         Picasso.with(this).load(news.getIcon()).resize(icon_width, icon_width / 2).centerCrop().into(icon);
 //        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 //        imageLoader.get(news.getIcon(), new ImageLoader.ImageListener() {
 //            @Override
 //            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
 //                if (response.getBitmap() != null) {
-//                    icon.setImageBitmap(response.getBitmap());
+//                    icon.setImageBitmap(Utils.resizeBitmap(response.getBitmap(), icon_width, icon_width/2 ));
 //                }
 //            }
 //
 //            @Override
 //            public void onErrorResponse(VolleyError error) {
-//
+//                    icon.setVisibility(View.GONE);
 //            }
 //        });
 
@@ -121,8 +116,9 @@ public class ReadActivity extends ActionBarActivity implements MyScrollView.OnSc
         // TODO Auto-generated method stub
         progressBar.setVisibility(View.VISIBLE);
         buttonRetry.setVisibility(View.GONE);
-        Log.i("Id", "" + id);
-        JsonObjectRequest req = new JsonObjectRequest(FETCH_NEWS_URL + "?content_id=" + id, null,
+        final String url = FETCH_NEWS_URL + "?content_id=" + id;
+        Log.d("Link", url);
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -180,24 +176,23 @@ public class ReadActivity extends ActionBarActivity implements MyScrollView.OnSc
 
     @Override
     public void onScrolled(int l, int t, int oldl, int oldt) {
-        if (t <= Utils.getActionBarHeight(this)) {
-            showActionBar();
-        } else {
-            if (t > oldt) { // SCROLL DOWN
-                hideActionBar();
-            } else {
-                if ((t < oldt) && (t > 0)) {
-                    showActionBar();
-                }
-            }
-        }
+//        if (t <= Utils.getActionBarHeight(this)) {
+//            showActionBar();
+//        } else {
+//            if (t > oldt) { // SCROLL DOWN
+//                hideActionBar();
+//            } else {
+//                if ((t < oldt) && (t > 0)) {
+//                    showActionBar();
+//                }
+//            }
+//        }
     }
 
     class getContentAsync extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
-            // TODO Auto-generated method stub
             super.onPreExecute();
             buttonRetry.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
@@ -205,22 +200,29 @@ public class ReadActivity extends ActionBarActivity implements MyScrollView.OnSc
 
         @Override
         protected String doInBackground(String... params) {
-            // TODO Auto-generated method stub
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpGet request = new HttpGet(FETCH_NEWS_URL + "?content_id=" + params[0]);
-
+//            HttpClient httpClient = new DefaultHttpClient();
+//            HttpGet request = new HttpGet(FETCH_NEWS_URL + "?content_id=" + params[0]);
+//
+//            try {
+//                HttpResponse httpResponse = httpClient.execute(request);
+//                InputStream inputStream = httpResponse.getEntity().getContent();
+//                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+//                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//                StringBuilder stringBuilder = new StringBuilder();
+//                String bufferedStrChunk = null;
+//                while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
+//                    stringBuilder.append(bufferedStrChunk);
+//                }
+//                return stringBuilder.toString();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+            String url = FETCH_NEWS_URL + "?content_id=" + params[0];
+            Log.d("Link", url);
             try {
-                HttpResponse httpResponse = httpClient.execute(request);
-                InputStream inputStream = httpResponse.getEntity().getContent();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                StringBuilder stringBuilder = new StringBuilder();
-                String bufferedStrChunk = null;
-                while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(bufferedStrChunk);
-                }
-                return stringBuilder.toString();
-            } catch (Exception e) {
+                return Utils.StringRequest(url);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
@@ -228,8 +230,6 @@ public class ReadActivity extends ActionBarActivity implements MyScrollView.OnSc
 
         @Override
         protected void onPostExecute(String result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
             JSONObject response = null;
             if (result != null) {
                 try {

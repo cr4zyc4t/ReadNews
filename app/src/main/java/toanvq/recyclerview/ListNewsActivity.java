@@ -62,11 +62,13 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
             layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    adapter.getItemViewType(position);
-                    return 0;
+                    if (adapter.getItemViewType(position) == ListNews_Adapter.VIEW_TYPES.PROGRESS) {
+                        return GRID_COLUMN;
+                    }
+                    return 1;
                 }
             });
-            listNews_view.setLayoutManager(new GridLayoutManager(this, GRID_COLUMN));
+            listNews_view.setLayoutManager(layoutManager);
         } else {
             listNews_view.setLayoutManager(new LinearLayoutManager(this));
         }
@@ -85,16 +87,22 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
                 getListNews(subcategory.getServer_id());
             }
         });
+        swipeRefreshLayout.setEnabled(false);
     }
 
     private void getListNews(int subcategory_id) {
 //        progressBar.setVisibility(View.VISIBLE);
+        listNews.add(null);
+        adapter.notifyItemInserted(listNews.size());
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, FETCH_LIST_NEWS_URL + "?limit=10&subcategory_id=" + subcategory_id, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 JSONArray feeds = response.optJSONArray("list_content");
                 if (feeds != null) {
+                    listNews.remove(listNews.size() - 1);
+                    adapter.notifyItemRemoved(listNews.size());
+
                     for (int i = 0; i < feeds.length(); i++) {
                         JSONObject feed = feeds.optJSONObject(i);
                         if (feed != null) {
@@ -107,7 +115,7 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
                     listNews.add(null);
                     adapter.notifyDataSetChanged();
                 }
-                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setEnabled(true);
 //                progressBar.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {

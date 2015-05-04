@@ -3,7 +3,6 @@ package toanvq.recyclerview;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +124,6 @@ public class ListNews_Adapter extends RecyclerView.Adapter<ListNews_Adapter.Item
         public ItemViewHolder(View itemView, int viewType) {
             super(itemView);
             this.parent = itemView;
-            Log.i("viewType", "" + getItemViewType());
             if (viewType == VIEW_TYPES.ITEM) {
                 this.icon = (ImageView) itemView.findViewById(R.id.icon);
                 this.title = (TextView) itemView.findViewById(R.id.title);

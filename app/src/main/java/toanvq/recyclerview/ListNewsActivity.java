@@ -39,7 +39,6 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
     private ListNews_Adapter adapter;
     private ProgressBar progressBar;
     private RecyclerView listNews_view;
-    private int currentColumnNumber = 1;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -174,10 +173,5 @@ public class ListNewsActivity extends ActionBarActivity implements ListNews_Adap
         }else{
             startActivity(readnews);
         }
-    }
-
-    private enum LayoutManageType {
-        LINEAR_LAYOUT,
-        GRIG_LAYOUT
     }
 }
